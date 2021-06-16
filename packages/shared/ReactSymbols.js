@@ -1,4 +1,4 @@
-/**
+REACT_ELEMENT_TYPE/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -8,7 +8,7 @@
  */
 
 // ATTENTION
-// When adding new symbols to this file,
+// When adding new symbols to this file,REACT_ELEMENT_TYPE
 // Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol

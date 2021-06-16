@@ -163,6 +163,7 @@ if (__DEV__) {
   };
 }
 
+// 初始化更新队列
 export function initializeUpdateQueue<State>(fiber: Fiber): void {
   const queue: UpdateQueue<State> = {
     baseState: fiber.memoizedState,
@@ -227,7 +228,7 @@ export function enqueueUpdate<State>(
   if (isInterleavedUpdate(fiber, lane)) {
     const interleaved = sharedQueue.interleaved;
     if (interleaved === null) {
-      // This is the first update. Create a circular list.
+      // 这是第一次更新。创建一个循环列表。
       update.next = update;
       // At the end of the current render, this queue's interleaved updates will
       // be transfered to the pending queue.
@@ -238,6 +239,7 @@ export function enqueueUpdate<State>(
     }
     sharedQueue.interleaved = update;
   } else {
+    console.log('sharedQueue: ', sharedQueue);
     const pending = sharedQueue.pending;
     if (pending === null) {
       // This is the first update. Create a circular list.

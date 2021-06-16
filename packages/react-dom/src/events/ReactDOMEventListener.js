@@ -84,6 +84,7 @@ export function createEventListenerWrapperWithPriority(
   domEventName: DOMEventName,
   eventSystemFlags: EventSystemFlags,
 ): Function {
+  // 获取事件优先级
   const eventPriority = getEventPriority(domEventName);
   let listenerWrapper;
   switch (eventPriority) {
@@ -106,6 +107,7 @@ export function createEventListenerWrapperWithPriority(
   );
 }
 
+// 分派离散事件
 function dispatchDiscreteEvent(
   domEventName,
   eventSystemFlags,
@@ -121,6 +123,7 @@ function dispatchDiscreteEvent(
   );
 }
 
+// 分派连续事件
 function dispatchContinuousEvent(
   domEventName,
   eventSystemFlags,
@@ -139,6 +142,7 @@ function dispatchContinuousEvent(
   }
 }
 
+// 调度事件
 export function dispatchEvent(
   domEventName: DOMEventName,
   eventSystemFlags: EventSystemFlags,
@@ -290,7 +294,7 @@ export function attemptToDispatchEvent(
 
 export function getEventPriority(domEventName: DOMEventName): * {
   switch (domEventName) {
-    // Used by SimpleEventPlugin:
+    // 由 SimpleEventPlugin 使用:
     case 'cancel':
     case 'click':
     case 'close':
@@ -371,9 +375,9 @@ export function getEventPriority(domEventName: DOMEventName): * {
     case 'pointerleave':
       return ContinuousEventPriority;
     case 'message': {
-      // We might be in the Scheduler callback.
-      // Eventually this mechanism will be replaced by a check
-      // of the current priority on the native scheduler.
+      // 我们可能在调度程序回调中。
+      // 最终这种机制将被支票取代
+      // 本机调度程序的当前优先级。
       const schedulerPriority = getCurrentSchedulerPriorityLevel();
       switch (schedulerPriority) {
         case ImmediateSchedulerPriority:

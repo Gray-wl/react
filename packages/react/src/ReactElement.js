@@ -146,10 +146,10 @@ function warnIfStringRefCannotBeAutoConverted(config) {
  */
 const ReactElement = function(type, key, ref, self, source, owner, props) {
   const element = {
-    // This tag allows us to uniquely identify this as a React Element
+    // 此标签允许我们将其唯一标识为 React 元素
     $$typeof: REACT_ELEMENT_TYPE,
 
-    // Built-in properties that belong on the element
+    // 属于元素的内置属性
     type: type,
     key: key,
     ref: ref,
@@ -176,7 +176,7 @@ const ReactElement = function(type, key, ref, self, source, owner, props) {
       writable: true,
       value: false,
     });
-    // self and source are DEV only properties.
+    // self 和 source 是 DEV 唯一的属性。
     Object.defineProperty(element, '_self', {
       configurable: false,
       enumerable: false,
@@ -347,6 +347,7 @@ export function jsxDEV(type, config, maybeKey, source, self) {
  * See https://reactjs.org/docs/react-api.html#createelement
  */
 export function createElement(type, config, children) {
+  console.log('createElement: ', type, config, children);
   let propName;
 
   // Reserved names are extracted
@@ -382,8 +383,8 @@ export function createElement(type, config, children) {
     }
   }
 
-  // Children can be more than one argument, and those are transferred onto
-  // the newly allocated props object.
+  // 孩子可以是多个论点，这些论点被转移到
+  // 新分配的道具对象。
   const childrenLength = arguments.length - 2;
   if (childrenLength === 1) {
     props.children = children;

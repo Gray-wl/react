@@ -362,15 +362,15 @@ export function getWorkInProgressRoot(): FiberRoot | null {
 
 export function requestEventTime() {
   if ((executionContext & (RenderContext | CommitContext)) !== NoContext) {
-    // We're inside React, so it's fine to read the actual time.
+    // 我们在 React 内部，所以可以读取实际时间。
     return now();
   }
-  // We're not inside React, so we may be in the middle of a browser event.
+  // 我们不在 React 内部，所以我们可能处于浏览器事件的中间。
   if (currentEventTime !== NoTimestamp) {
-    // Use the same start time for all updates until we enter React again.
+    // 对所有更新使用相同的开始时间，直到我们再次进入 React。
     return currentEventTime;
   }
-  // This is the first update since React yielded. Compute a new start time.
+  // 这是自 React 屈服以来的第一次更新。计算新的开始时间。
   currentEventTime = now();
   return currentEventTime;
 }
@@ -379,6 +379,7 @@ export function getCurrentTime() {
   return now();
 }
 
+// 请求更新通道
 export function requestUpdateLane(fiber: Fiber): Lane {
   // Special cases
   const mode = fiber.mode;
@@ -1137,8 +1138,8 @@ export function unbatchedUpdates<A, R>(fn: (a: A) => R, a: A): R {
     return fn(a);
   } finally {
     executionContext = prevExecutionContext;
-    // If there were legacy sync updates, flush them at the end of the outer
-    // most batchedUpdates-like method.
+    // 如果有旧同步更新，则在外部的末尾刷新它们
+    // 大多数类似batchedUpdates的方法。
     if (executionContext === NoContext) {
       resetRenderTimer();
       // TODO: I think this call is redundant, because we flush inside

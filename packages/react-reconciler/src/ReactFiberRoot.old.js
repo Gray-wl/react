@@ -101,7 +101,10 @@ export function createFiberRoot(
   isStrictMode: boolean,
   concurrentUpdatesByDefaultOverride: null | boolean,
 ): FiberRoot {
+  console.log('createFiberRoot: ', containerInfo, tag);
+  // 创建根Fiber
   const root: FiberRoot = (new FiberRootNode(containerInfo, tag, hydrate): any);
+  console.log('rootFiber: ', root);
   if (enableSuspenseCallback) {
     root.hydrationCallbacks = hydrationCallbacks;
   }
@@ -115,7 +118,9 @@ export function createFiberRoot(
   );
   root.current = uninitializedFiber;
   uninitializedFiber.stateNode = root;
+  console.log('uninitializedFiber: ', uninitializedFiber);
 
+  // 是否启用缓存
   if (enableCache) {
     const initialCache = new Map();
     root.pooledCache = initialCache;
@@ -123,6 +128,7 @@ export function createFiberRoot(
       element: null,
       cache: initialCache,
     };
+    // 状态记忆
     uninitializedFiber.memoizedState = initialState;
   } else {
     const initialState = {

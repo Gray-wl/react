@@ -135,6 +135,7 @@ if (__DEV__) {
   didWarnAboutFindNodeInStrictMode = {};
 }
 
+// 获取子树的上下文
 function getContextForSubtree(
   parentComponent: ?React$Component<any, any>,
 ): Object {
@@ -261,16 +262,19 @@ export function createContainer(
   );
 }
 
+// 更新容器
 export function updateContainer(
   element: ReactNodeList,
   container: OpaqueRoot,
   parentComponent: ?React$Component<any, any>,
   callback: ?Function,
 ): Lane {
+  console.log('updateContainer: ', element, container, parentComponent);
   if (__DEV__) {
     onScheduleRoot(container, element);
   }
   const current = container.current;
+  // 请求事件时间
   const eventTime = requestEventTime();
   if (__DEV__) {
     // $FlowExpectedError - jest isn't a global, and isn't recognized outside of tests
@@ -279,6 +283,7 @@ export function updateContainer(
       warnIfNotScopedWithMatchingAct(current);
     }
   }
+  // 请求更新通道
   const lane = requestUpdateLane(current);
 
   if (enableSchedulingProfiler) {
@@ -309,8 +314,9 @@ export function updateContainer(
     }
   }
 
+  // 创建更新
   const update = createUpdate(eventTime, lane);
-  // Caution: React DevTools currently depends on this property
+  // 注意：React DevTools 目前依赖于这个属性
   // being called "element".
   update.payload = {element};
 
@@ -328,7 +334,9 @@ export function updateContainer(
     update.callback = callback;
   }
 
+  // 入队更新
   enqueueUpdate(current, update, lane);
+  // 安排光纤更新
   const root = scheduleUpdateOnFiber(current, lane, eventTime);
   if (root !== null) {
     entangleTransitions(root, current, lane);
@@ -351,6 +359,7 @@ export {
   act,
 };
 
+// 获取公共根实例
 export function getPublicRootInstance(
   container: OpaqueRoot,
 ): React$Component<any, any> | PublicInstance | null {

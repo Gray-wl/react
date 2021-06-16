@@ -445,14 +445,15 @@ export function createHostRootFiber(
       mode |= ConcurrentUpdatesByDefaultMode;
     }
   } else {
-    mode = NoMode;
+    mode = NoMode; // 0b000000
   }
 
   if (enableProfilerTimer && isDevToolsPresent) {
+    console.log(enableProfilerTimer, isDevToolsPresent)
     // Always collect profile timings when DevTools are present.
     // This enables DevTools to start capturing timing at any point–
     // Without some nodes in the tree having empty base times.
-    mode |= ProfileMode;
+    mode |= ProfileMode; // 2
   }
 
   return createFiber(HostRoot, null, null, mode);

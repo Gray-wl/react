@@ -231,7 +231,7 @@ export function isValidContainer(node: any): boolean {
 }
 
 // TODO: Remove this function which also includes comment nodes.
-// We only use it in places that are currently more relaxed.
+// 我们只在目前比较放松的地方使用它。
 export function isValidContainerLegacy(node: any): boolean {
   return !!(
     node &&

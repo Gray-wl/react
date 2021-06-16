@@ -103,13 +103,16 @@ function getReactRootElementInContainer(container: any) {
   }
 }
 
+// 从 DOM 容器创建根
 function legacyCreateRootFromDOMContainer(
   container: Container,
   forceHydrate: boolean,
 ): FiberRoot {
-  // First clear any existing content.
+  // 首先清除所有现有内容。
   if (!forceHydrate) {
     let rootSibling;
+    console.log('container: ', container);
+    // 判断容器中是否有内容
     while ((rootSibling = container.lastChild)) {
       container.removeChild(rootSibling);
     }
@@ -117,8 +120,8 @@ function legacyCreateRootFromDOMContainer(
 
   const root = createContainer(
     container,
-    LegacyRoot,
-    forceHydrate,
+    LegacyRoot, // 0
+    forceHydrate, // false
     null, // hydrationCallbacks
     false, // isStrictMode
     false, // concurrentUpdatesByDefaultOverride,
@@ -127,6 +130,7 @@ function legacyCreateRootFromDOMContainer(
 
   const rootContainerElement =
     container.nodeType === COMMENT_NODE ? container.parentNode : container;
+  // 监听事件
   listenToAllSupportedEvents(rootContainerElement);
 
   return root;
@@ -145,6 +149,7 @@ function warnOnInvalidCallback(callback: mixed, callerName: string): void {
   }
 }
 
+// 传统的将子树渲染到容器中
 function legacyRenderSubtreeIntoContainer(
   parentComponent: ?React$Component<any, any>,
   children: ReactNodeList,
@@ -158,7 +163,9 @@ function legacyRenderSubtreeIntoContainer(
   }
 
   let root = container._reactRootContainer;
+  console.log('root: ', root);
   let fiberRoot: FiberRoot;
+  // 初始化root挂载
   if (!root) {
     // Initial mount
     root = container._reactRootContainer = legacyCreateRootFromDOMContainer(
@@ -173,7 +180,7 @@ function legacyRenderSubtreeIntoContainer(
         originalCallback.call(instance);
       };
     }
-    // Initial mount should not be batched.
+    // 不应批处理初始安装。
     unbatchedUpdates(() => {
       updateContainer(children, fiberRoot, parentComponent, callback);
     });
@@ -269,6 +276,7 @@ export function render(
   container: Container,
   callback: ?Function,
 ) {
+  console.log('render: ', element, container);
   if (__DEV__) {
     console.error(
       'ReactDOM.render is no longer supported in React 18. Use createRoot ' +

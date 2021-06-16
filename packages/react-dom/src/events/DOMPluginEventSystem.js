@@ -201,9 +201,9 @@ export const mediaEventTypes: Array<DOMEventName> = [
   'waiting',
 ];
 
-// We should not delegate these events to the container, but rather
-// set them on the actual target element itself. This is primarily
-// because these events do not consistently bubble in the DOM.
+// 我们不应该将这些事件委托给容器，而是应该
+// 将它们设置在实际的目标元素本身上。这主要是
+// 因为这些事件不会一直在 DOM 中冒泡。
 export const nonDelegatedEvents: Set<DOMEventName> = new Set([
   'cancel',
   'close',
@@ -211,10 +211,10 @@ export const nonDelegatedEvents: Set<DOMEventName> = new Set([
   'load',
   'scroll',
   'toggle',
-  // In order to reduce bytes, we insert the above array of media events
-  // into this Set. Note: the "error" event isn't an exclusive media event,
-  // and can occur on other elements too. Rather than duplicate that event,
-  // we just take it from the media events array.
+  // 为了减少字节，我们插入了上面的媒体事件数组
+  // 进入这个集合。注意：“错误”事件不是独家媒体事件，
+  // 并且也可以发生在其他元素上。而不是重复那个事件，
+  // 我们只是从媒体事件数组中取出它。
   ...mediaEventTypes,
 ]);
 
@@ -321,9 +321,10 @@ export function listenToNonDelegatedEvent(
   }
 }
 
+// 听本地事件
 export function listenToNativeEvent(
   domEventName: DOMEventName,
-  isCapturePhaseListener: boolean,
+  isCapturePhaseListener: boolean, // 捕获阶段侦听器
   target: EventTarget,
 ): void {
   if (__DEV__) {
@@ -336,9 +337,10 @@ export function listenToNativeEvent(
     }
   }
 
+  // 事件系统标志
   let eventSystemFlags = 0;
   if (isCapturePhaseListener) {
-    eventSystemFlags |= IS_CAPTURE_PHASE;
+    eventSystemFlags |= IS_CAPTURE_PHASE; //4
   }
   addTrappedEventListener(
     target,
@@ -381,13 +383,15 @@ const listeningMarker =
     .toString(36)
     .slice(2);
 
+// 收听所有支持的事件
 export function listenToAllSupportedEvents(rootContainerElement: EventTarget) {
   if (!(rootContainerElement: any)[listeningMarker]) {
     (rootContainerElement: any)[listeningMarker] = true;
     allNativeEvents.forEach(domEventName => {
-      // We handle selectionchange separately because it
-      // doesn't bubble and needs to be on the document.
+      // 我们单独处理 selectionchange 因为它
+      // 不会冒泡，需要在文档上。
       if (domEventName !== 'selectionchange') {
+        // 非委托事件
         if (!nonDelegatedEvents.has(domEventName)) {
           listenToNativeEvent(domEventName, false, rootContainerElement);
         }
@@ -409,6 +413,7 @@ export function listenToAllSupportedEvents(rootContainerElement: EventTarget) {
   }
 }
 
+// 添加陷阱事件监听器
 function addTrappedEventListener(
   targetContainer: EventTarget,
   domEventName: DOMEventName,
@@ -416,6 +421,7 @@ function addTrappedEventListener(
   isCapturePhaseListener: boolean,
   isDeferredListenerForLegacyFBSupport?: boolean,
 ) {
+  // 创建具有优先级的事件侦听器包装器
   let listener = createEventListenerWrapperWithPriority(
     targetContainer,
     domEventName,
@@ -531,6 +537,7 @@ function isMatchingRootContainer(
   );
 }
 
+// 为插件事件系统调度事件
 export function dispatchEventForPluginEventSystem(
   domEventName: DOMEventName,
   eventSystemFlags: EventSystemFlags,
