@@ -11,7 +11,7 @@ const OFF = 0;
 const ERROR = 2;
 
 module.exports = {
-  extends: ['fbjs', 'prettier'],
+  extends: [], // wl ['fbjs', 'prettier']
 
   // Stop ESLint from looking for a configuration file in parent folders
   root: true,
@@ -19,9 +19,9 @@ module.exports = {
   plugins: [
     'jest',
     'no-for-of-loops',
-    'no-function-declare-after-return',
+    // 'no-function-declare-after-return', // wl
     'react',
-    'react-internal',
+    // 'react-internal', // wl
   ],
 
   parser: 'babel-eslint',
@@ -103,23 +103,23 @@ module.exports = {
     'no-for-of-loops/no-for-of-loops': ERROR,
 
     // Prevent function declarations after return statements
-    'no-function-declare-after-return/no-function-declare-after-return': ERROR,
+    // 'no-function-declare-after-return/no-function-declare-after-return': ERROR, // wl
 
     // CUSTOM RULES
     // the second argument of warning/invariant should be a literal string
-    'react-internal/no-primitive-constructors': ERROR,
-    'react-internal/no-to-warn-dev-within-to-throw': ERROR,
-    'react-internal/invariant-args': ERROR,
-    'react-internal/warning-args': ERROR,
-    'react-internal/no-production-logging': ERROR,
-    'react-internal/no-cross-fork-imports': ERROR,
-    'react-internal/no-cross-fork-types': [
-      ERROR,
-      {
-        old: [],
-        new: [],
-      },
-    ],
+    // 'react-internal/no-primitive-constructors': ERROR,
+    // 'react-internal/no-to-warn-dev-within-to-throw': ERROR,
+    // 'react-internal/invariant-args': ERROR,
+    // 'react-internal/warning-args': ERROR,
+    // 'react-internal/no-production-logging': ERROR,
+    // 'react-internal/no-cross-fork-imports': ERROR,
+    // 'react-internal/no-cross-fork-types': [
+    //   ERROR,
+    //   {
+    //     old: [],
+    //     new: [],
+    //   },
+    // ],
   },
 
   overrides: [

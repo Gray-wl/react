@@ -34,6 +34,7 @@ import {createContext} from './ReactContext';
 import {lazy} from './ReactLazy';
 import {forwardRef} from './ReactForwardRef';
 import {memo} from './ReactMemo';
+// React hook
 import {
   getCacheForType,
   useCallback,
